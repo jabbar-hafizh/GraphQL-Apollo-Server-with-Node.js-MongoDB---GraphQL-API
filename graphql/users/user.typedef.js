@@ -2,32 +2,38 @@ const { gql } = require('apollo-server-express');
 
 const userTypeDef = gql`
   type Query {
-    GetOneUser(last_name: String): User
+    GetOneUser(_id: ID): User
     GetAllUsers: [User]
   }
 
   type Mutation {
     AddUser(user_input: UserInput): User
-    UpdateUser(id: Int, user_input: UserInput): User
-    DeleteUser(id: Int): User
+    UpdateUser(_id: ID, user_input: UserInput): User
+    DeleteUser(_id: ID): User
   }
 
   input UserInput {
-    id: Int
     first_name: String
     last_name: String
+    gender: GenderEnum
     email: String
     birth_date: String
     birth_place: String
   }
 
   type User {
-    id: Int
+    _id: ID
     first_name: String
     last_name: String
     email: String
+    gender: GenderEnum
     birth_date: String
     birth_place: String
+  }
+
+  enum GenderEnum {
+    male
+    female
   }
 `;
 
