@@ -26,6 +26,15 @@ async function DeleteUser(parent, { _id }) {
   return await UserModel.findByIdAndUpdate(_id, { $set: { status: 'deleted' } }, { new: true }).lean();
 }
 
+// LOADER
+async function user_id(parent, args, context) {
+  if (parent.user_id) {
+    return await context.loaders.UserLoader.load(parent.user_id);
+  }
+
+  return null;
+}
+
 module.exports = {
   Query: {
     GetAllUsers,
