@@ -19,6 +19,7 @@ const productTypeDef = gql`
     price: Float
     rating: Float
     description: String
+    images: [ProductImageInput]
   }
 
   type Product {
@@ -31,6 +32,7 @@ const productTypeDef = gql`
     price: Float
     rating: Float
     description: String
+    images: [ProductImage]
   }
 
   input ProductFilterInput {
@@ -49,16 +51,27 @@ const productTypeDef = gql`
     page: Int
   }
 
-  enum SortingEnum {
-    asc
-    desc
-  }
-
   input ProductSortingInput {
     name: SortingEnum
     price: SortingEnum
     rating: SortingEnum
   }
+
+  input ProductImageInput {
+    original_file_name: String
+    bucket_file_name: String
+  }
+
+  type ProductImage {
+    original_file_name: String
+    bucket_file_name: String
+  }
+
+  enum SortingEnum {
+    asc
+    desc
+  }
 `;
 
 module.exports = productTypeDef;
+ 

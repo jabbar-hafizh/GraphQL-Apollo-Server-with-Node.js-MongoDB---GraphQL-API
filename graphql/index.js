@@ -6,17 +6,26 @@ const auth = require('./auth');
 const product = require('./products');
 const category = require('./categories');
 const productOrder = require('./productOrders');
+const fileUpload = require('./fileUploads');
 
 const typeDef = gql`
   type Query
   type Mutation
 `;
 
-const typeDefs = [typeDef, user.typeDefs, auth.typeDefs, product.typeDefs, category.typeDefs, productOrder.typeDefs];
+const typeDefs = [typeDef, user.typeDefs, auth.typeDefs, product.typeDefs, category.typeDefs, productOrder.typeDefs, fileUpload.typeDefs];
 
 let resolvers = {};
 
-resolvers = merge(resolvers, user.resolvers, auth.resolvers, product.resolvers, category.resolvers, productOrder.resolvers);
+resolvers = merge(
+  resolvers,
+  user.resolvers,
+  auth.resolvers,
+  product.resolvers,
+  category.resolvers,
+  productOrder.resolvers,
+  fileUpload.resolvers
+);
 
 module.exports = {
   typeDefs,

@@ -2,6 +2,7 @@ require('./connection');
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
 const cors = require('cors');
+const path = require('path');
 
 const { typeDefs, resolvers } = require('./graphql');
 const { loaders } = require('./loaders/index');
@@ -15,6 +16,7 @@ const app = express();
 app.use(cors());
 // body parser middleware
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(userLogMiddleware);
 
 const executableSchema = makeExecutableSchema({ typeDefs, resolvers });

@@ -62,6 +62,11 @@ const userSchema = new Schema(
         },
       },
     ],
+    image: {
+      original_file_name: { type: String },
+      bucket_file_name: { type: String },
+      file_url: { type: String },
+    },
   },
   {
     timestamps: true,
