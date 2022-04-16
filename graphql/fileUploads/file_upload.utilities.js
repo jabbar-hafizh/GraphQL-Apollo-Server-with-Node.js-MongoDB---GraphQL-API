@@ -14,7 +14,7 @@ const SaveFileToServer = async (filename, createReadStream, customLocation, extN
     let uploadDir = customLocation;
     let random = common.create_UUID();
     let newFilename = `${random}-${filename}`;
-    let location = `${uploadDir ? uploadDir : './public/fileuploads/'}${newFilename}${extName}`;
+    let location = `${uploadDir ? uploadDir : './public/fileUploads/'}${newFilename}${extName}`;
 
     let stream = createReadStream()
       .on('error', (error) => {
@@ -43,7 +43,7 @@ const SaveFileToServer = async (filename, createReadStream, customLocation, extN
 async function SaveFile(filename, createReadStream, custom_file_name = '', extName) {
   return new Promise((resolve, reject) => {
     console.log('filename', filename);
-    let uploadDir = './public/fileuploads';
+    let uploadDir = './public/fileUploads';
     let random = common.create_UUID();
     let newFilename = `${
       custom_file_name === '' || _.isNil(custom_file_name)
