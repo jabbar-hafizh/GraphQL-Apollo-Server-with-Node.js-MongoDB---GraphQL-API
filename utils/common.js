@@ -4,7 +4,7 @@ const _ = require('lodash');
 const moment = require('moment');
 
 const algorithm = 'aes-256-ctr';
-const JWT_KEY = process.env.PWD_KEY ? process.env.PWD_KEY : 'j!J@W#w$t%T^';
+const JWT_KEY = process.env.JWT_KEY ? process.env.JWT_KEY : 'j!J@W#w$t%T^';
 
 const { accent_map, latin_map } = require('./string');
 
