@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const Types = mongoose.Types;
 
 const ProductOrderModel = require('./product_order.model');
+const ProductModel = require('../products/product.model');
 
 // QUERY
 async function GetAllProductOrders(parent, { filter, pagination, sorting }) {
@@ -100,6 +101,32 @@ async function CreateProductOrder(parent, { product_order_input }, context) {
 }
 
 async function UpdateProductOrder(parent, { _id, product_order_input }) {
+  const product_order = await ProductOrderModel.findById(_id).lean();
+  const product_order_quantity = product_order_input.quantity ? product_order_input.quantity : product_order.quantity;
+  const product = await ProductModel.findOne({
+    status: 'active',
+    _id: product_order.product_id,
+  })
+    .select('_id quantity')
+    .lean();
+  if (product) {
+    if (product.quantity < product_order_quantity) {
+      throw new Error(`Stock left is ${product.quantity}`);
+    } else {
+      await ProductModel.updateOne(
+        {
+          _id: product._id,
+        },
+        {
+          $set: {
+            quantity: product.quantity - product_order_quantity,
+          },
+        },
+        { new: true }
+      );
+    }
+  }
+
   return await ProductOrderModel.findByIdAndUpdate(_id, { $set: product_order_input }, { new: true }).lean();
 }
 
