@@ -101,7 +101,7 @@ async function CreateProductOrder(parent, { product_order_input }, context) {
 }
 
 async function UpdateProductOrder(parent, { _id, product_order_input }) {
-  if (product_order_input.order_status === 'paid') {
+  if (product_order_input.order_status && product_order_input.order_status === 'paid') {
     const product_order = await ProductOrderModel.findById(_id).lean();
     const product_order_quantity = product_order_input.quantity ? product_order_input.quantity : product_order.quantity;
     const product = await ProductModel.findOne({
