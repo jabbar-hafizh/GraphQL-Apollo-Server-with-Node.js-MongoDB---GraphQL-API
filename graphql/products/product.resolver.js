@@ -59,8 +59,9 @@ async function GetAllProducts(parent, { filter, pagination, sorting }) {
     });
 
     let products = await ProductModel.aggregate(aggregateQuery).allowDiskUse(true);
+    const count_document = products[0] && products[0].countData[0] && products[0].countData[0].count ? products[0].countData[0].count : 0;
     return products[0].data.map((data) => {
-      return { ...data, count_document: products[0].countData[0].count };
+      return { ...data, count_document };
     });
   }
 
