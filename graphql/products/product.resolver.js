@@ -1,7 +1,8 @@
 const ProductModel = require('./product.model');
+const CategoryModel = require('../categories/category.model');
 
 // QUERY
-async function GetAllProducts(parent, { filter }) {
+async function GetAllProducts(parent, { filter, pagination }) {
   const query = {
     $and: [{ status: 'active' }],
   };
@@ -11,6 +12,27 @@ async function GetAllProducts(parent, { filter }) {
     if (filter.name) {
       query.$and.push({ name: { $regex: new RegExp(filter.name, 'i') } });
     }
+    if (filter.category_name) {
+      const categoies = await CategoryModel.distinct('_id', {
+        status: 'active',
+        name: { $regex: new RegExp(filter.category_name, 'i') },
+      });
+      query.$and.push({ category_ids: { $in: categoies } });
+    }
+  }
+
+  if (pagination && (pagination.page || pagination.page === 0) && pagination.limit) {
+    aggregateQuery.push({
+      $facet: {
+        data: [{ $skip: pagination.limit * pagination.page }, { $limit: pagination.limit }],
+        countData: [{ $group: { _id: null, count: { $sum: 1 } } }],
+      },
+    });
+
+    let products = await ProductModel.aggregate(aggregateQuery).allowDiskUse(true).collation({ locale: 'fr_CA' });
+    return products[0].data.map((data) => {
+      return { ...data, count_document: products[0].countData[0].count };
+    });
   }
 
   return await ProductModel.aggregate(aggregateQuery);

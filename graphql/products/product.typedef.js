@@ -3,7 +3,7 @@ const { gql } = require('apollo-server-express');
 const productTypeDef = gql`
   extend type Query {
     GetOneProduct(_id: ID): Product
-    GetAllProducts(filter: ProductFilterInput): [Product]
+    GetAllProducts(filter: ProductFilterInput, pagination: PaginationInput): [Product]
   }
 
   extend type Mutation {
@@ -25,10 +25,17 @@ const productTypeDef = gql`
     quantity: Int
     category_ids: [Category]
     user_id: User
+    count_document: Int
   }
 
   input ProductFilterInput {
     name: String
+    category_name: String
+  }
+
+  input PaginationInput {
+    limit: Int
+    page: Int
   }
 `;
 
