@@ -16,7 +16,6 @@ const productTypeDef = gql`
     name: String
     quantity: Int
     category_ids: [ID]
-    user_id: ID
     price: Float
     rating: Float
   }
