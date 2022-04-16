@@ -20,11 +20,16 @@
   },
   "homepage": "https://github.com/jabbar-hafizh/GraphQL-Apollo-Server-with-Node.js-MongoDB---GraphQL-API#readme",
   "dependencies": {
+    "@hapi/joi": "^15.1.0",
     "apollo-server-express": "^2.8.1",
     "cors": "^2.8.5",
+    "crypto": "^1.0.1",
     "dataloader": "^1.4.0",
-    "dotenv": "^16.0.0",
+    "dotenv": "^6.2.0",
     "express": "^4.17.3",
+    "graphql-middleware": "^4.0.0",
+    "graphql-tools": "^4.0.5",
+    "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "moment": "^2.26.0",
     "mongoose": "^5.6.9"

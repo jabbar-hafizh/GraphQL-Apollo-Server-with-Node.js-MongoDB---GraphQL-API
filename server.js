@@ -5,16 +5,23 @@ const cors = require('cors');
 
 const { typeDefs, resolvers } = require('./graphql');
 const { loaders } = require('./loaders/index');
+const { authMiddleware, userLogMiddleware } = require('./middlewares/index');
+const { makeExecutableSchema } = require('graphql-tools');
+const { applyMiddleware } = require('graphql-middleware');
 
 const app = express();
 
 // cors
 app.use(cors());
-
 // body parser middleware
 app.use(express.json());
+app.use(userLogMiddleware);
+
+const executableSchema = makeExecutableSchema({ typeDefs, resolvers });
+const protectedSchema = applyMiddleware(executableSchema, authMiddleware);
 
 const apolloServer = new ApolloServer({
+  schema: protectedSchema,
   typeDefs,
   resolvers,
   playground: process.env.APOLLO_SERVER_PLAYGROUND || true,

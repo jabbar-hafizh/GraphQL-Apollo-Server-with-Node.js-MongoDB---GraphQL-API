@@ -17,6 +17,18 @@ const userSchema = new Schema(
     email: {
       type: String,
     },
+    password: {
+      type: String,
+    },
+    auth_token: [
+      {
+        type: String,
+        default: [],
+      },
+    ],
+    salt: {
+      type: String,
+    },
     gender: {
       type: String,
       enum: ['male', 'female'],
