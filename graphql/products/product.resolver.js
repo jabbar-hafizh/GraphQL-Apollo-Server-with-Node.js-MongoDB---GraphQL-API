@@ -1,8 +1,10 @@
+const _ = require('lodash');
+
 const ProductModel = require('./product.model');
 const CategoryModel = require('../categories/category.model');
 
 // QUERY
-async function GetAllProducts(parent, { filter, pagination }) {
+async function GetAllProducts(parent, { filter, pagination, sorting }) {
   const query = {
     $and: [{ status: 'active' }],
   };
@@ -19,6 +21,33 @@ async function GetAllProducts(parent, { filter, pagination }) {
       });
       query.$and.push({ category_ids: { $in: categoies } });
     }
+    if (filter.price && filter.price.from && filter.price.to) {
+      query.$and.push({
+        price: {
+          $gte: filter.price.from,
+          $lte: filter.price.to,
+        },
+      });
+    }
+  }
+
+  if (sorting) {
+    let sort = {};
+    if (sorting.name) {
+      aggregateQuery.push({
+        $addFields: {
+          name_lower: { $toLower: '$name' },
+        },
+      });
+      sort.name_lower = sorting.name === 'asc' ? 1 : -1;
+    } else if (sorting.price) {
+      sort.price = sorting.price === 'asc' ? 1 : -1;
+    } else if (sorting.rating) {
+      sort.rating = sorting.rating === 'asc' ? 1 : -1;
+    }
+    aggregateQuery.push({
+      $sort: _.isEmpty(sort) ? { createdAt: -1 } : sort,
+    });
   }
 
   if (pagination && (pagination.page || pagination.page === 0) && pagination.limit) {
@@ -29,7 +58,7 @@ async function GetAllProducts(parent, { filter, pagination }) {
       },
     });
 
-    let products = await ProductModel.aggregate(aggregateQuery).allowDiskUse(true).collation({ locale: 'fr_CA' });
+    let products = await ProductModel.aggregate(aggregateQuery).allowDiskUse(true);
     return products[0].data.map((data) => {
       return { ...data, count_document: products[0].countData[0].count };
     });

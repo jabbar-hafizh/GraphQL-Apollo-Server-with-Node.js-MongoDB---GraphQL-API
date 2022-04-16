@@ -3,7 +3,7 @@ const { gql } = require('apollo-server-express');
 const productTypeDef = gql`
   extend type Query {
     GetOneProduct(_id: ID): Product
-    GetAllProducts(filter: ProductFilterInput, pagination: PaginationInput): [Product]
+    GetAllProducts(filter: ProductFilterInput, pagination: PaginationInput, sorting: ProductSortingInput): [Product]
   }
 
   extend type Mutation {
@@ -17,6 +17,8 @@ const productTypeDef = gql`
     quantity: Int
     category_ids: [ID]
     user_id: ID
+    price: Float
+    rating: Float
   }
 
   type Product {
@@ -26,16 +28,35 @@ const productTypeDef = gql`
     category_ids: [Category]
     user_id: User
     count_document: Int
+    price: Float
+    rating: Float
   }
 
   input ProductFilterInput {
     name: String
     category_name: String
+    price: ProductPriceFilterInput
+  }
+
+  input ProductPriceFilterInput {
+    from: Float
+    to: Float
   }
 
   input PaginationInput {
     limit: Int
     page: Int
+  }
+
+  enum SortingEnum {
+    asc
+    desc
+  }
+
+  input ProductSortingInput {
+    name: SortingEnum
+    price: SortingEnum
+    rating: SortingEnum
   }
 `;
 

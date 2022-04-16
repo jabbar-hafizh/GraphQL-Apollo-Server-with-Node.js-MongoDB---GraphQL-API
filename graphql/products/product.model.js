@@ -24,6 +24,12 @@ const productSchema = new Schema(
       type: Schema.ObjectId,
       ref: 'user',
     },
+    price: {
+      type: Number,
+    },
+    rating: {
+      type: Number,
+    },
   },
   {
     timestamps: true,
