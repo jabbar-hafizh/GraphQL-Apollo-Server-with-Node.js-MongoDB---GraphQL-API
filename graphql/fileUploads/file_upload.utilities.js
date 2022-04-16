@@ -15,9 +15,12 @@ const SaveFileToServer = async (filename, createReadStream, customLocation, extN
     let random = common.create_UUID();
     let newFilename = `${random}-${filename}`;
     let location = `${uploadDir ? uploadDir : './public/fileuploads/'}${newFilename}${extName}`;
+    console.log('location', location);
 
     let stream = createReadStream()
       .on('error', (error) => {
+        console.log('error 1111', error);
+
         if (stream.truncated) {
           // delete the truncated file
           fs.unlinkSync(location);
@@ -25,15 +28,21 @@ const SaveFileToServer = async (filename, createReadStream, customLocation, extN
         reject(error);
       })
       .pipe(fs.createWriteStream(location))
-      .on('error', (error) => reject(error))
+      .on('error', (error) => {
+        console.log('error 2222', error);
+
+        reject(error);
+      })
       .on('finish', async () => {
         let file = {
           originalname: '',
           buffer: '',
         };
+        console.log('file 1111', file);
 
         file.buffer = fs.readFileSync(location);
         file.originalname = newFilename;
+        console.log('file 2222', file);
 
         resolve(file);
       });
