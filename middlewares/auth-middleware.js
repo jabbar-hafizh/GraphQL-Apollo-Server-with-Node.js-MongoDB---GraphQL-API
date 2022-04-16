@@ -29,6 +29,7 @@ let authMiddleware = {
   Mutation: {
     CreateProduct: requireAuth,
     CreateProductOrder: requireAuth,
+    SingleUpload: requireAuth,
   },
 };
 
