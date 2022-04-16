@@ -33,6 +33,13 @@ const productSchema = new Schema(
     rating: {
       type: Number,
     },
+    images: [
+      {
+        original_file_name: { type: String },
+        bucket_file_name: { type: String },
+        file_url: { type: String },
+      },
+    ],
   },
   {
     timestamps: true,

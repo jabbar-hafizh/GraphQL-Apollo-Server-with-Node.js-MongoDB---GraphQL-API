@@ -19,6 +19,7 @@ const userTypeDef = gql`
     birth_date: String
     birth_place: String
     addresses: [UserAddressInput]
+    image: ImageInput
   }
 
   type User {
@@ -30,6 +31,7 @@ const userTypeDef = gql`
     birth_date: String
     birth_place: String
     addresses: [UserAddress]
+    image: Image
   }
 
   input UserAddressInput {
