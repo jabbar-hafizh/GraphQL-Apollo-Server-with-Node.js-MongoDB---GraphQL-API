@@ -10,6 +10,7 @@ const userLog = async function (req, res, next) {
   const userLogData = { url: req.url };
 
   if (Object.keys(req.body).length < 1) {
+    console.log('userLogData 1111', userLogData);
     await UserLogModel.create(userLogData);
 
     return next();
@@ -30,6 +31,7 @@ const userLog = async function (req, res, next) {
       userLogData.user_id = userId;
     } catch (e) {}
   }
+  console.log('userLogData 2222', userLogData);
 
   await UserLogModel.create(userLogData);
 
