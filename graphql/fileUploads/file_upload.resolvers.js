@@ -17,7 +17,7 @@ async function SingleUpload(parent, args) {
     return {
       original_file_name: originalnName,
       bucket_file_name: newFilename.originalname + extention,
-      file_url: `${process.env.SERVER_ENV === 'production' ? process.env.URL : process.env.API_BASE}/fileUploads/${
+      file_url: `${process.env.SERVER_ENV === 'production' ? process.env.URL : process.env.API_BASE}/fileuploads/${
         newFilename.originalname
       }${extention}`,
       mime_type: file.mimetype,
