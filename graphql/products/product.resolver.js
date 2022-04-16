@@ -1,8 +1,19 @@
 const ProductModel = require('./product.model');
 
 // QUERY
-async function GetAllProducts(parent) {
-  return await ProductModel.find({ status: 'active' }).lean();
+async function GetAllProducts(parent, { filter }) {
+  const query = {
+    $and: [{ status: 'active' }],
+  };
+  const aggregateQuery = [{ $match: query }];
+
+  if (filter) {
+    if (filter.name) {
+      query.$and.push({ name: { $regex: new RegExp(filter.name, 'i') } });
+    }
+  }
+
+  return await ProductModel.aggregate(aggregateQuery);
 }
 
 async function GetOneProduct(parent, { _id }) {
