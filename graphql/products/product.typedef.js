@@ -18,6 +18,7 @@ const productTypeDef = gql`
     category_ids: [ID]
     price: Float
     rating: Float
+    description: String
   }
 
   type Product {
@@ -29,6 +30,7 @@ const productTypeDef = gql`
     count_document: Int
     price: Float
     rating: Float
+    description: String
   }
 
   input ProductFilterInput {

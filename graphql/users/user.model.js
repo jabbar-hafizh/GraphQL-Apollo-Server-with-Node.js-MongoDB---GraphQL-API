@@ -40,6 +40,28 @@ const userSchema = new Schema(
     birth_place: {
       type: String,
     },
+    store_name: {
+      type: String,
+    },
+    addresses: [
+      {
+        address: {
+          type: String,
+        },
+        type: {
+          type: String,
+        },
+        city: {
+          type: String,
+        },
+        country: {
+          type: String,
+        },
+        postal_code: {
+          type: String,
+        },
+      },
+    ],
   },
   {
     timestamps: true,

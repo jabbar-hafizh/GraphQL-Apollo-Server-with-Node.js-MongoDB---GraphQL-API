@@ -18,6 +18,7 @@ const userTypeDef = gql`
     email: String
     birth_date: String
     birth_place: String
+    addresses: [UserAddressInput]
   }
 
   type User {
@@ -28,6 +29,23 @@ const userTypeDef = gql`
     gender: GenderEnum
     birth_date: String
     birth_place: String
+    addresses: [UserAddress]
+  }
+
+  input UserAddressInput {
+    address: String
+    type: String
+    city: String
+    country: String
+    postal_code: String
+  }
+
+  type UserAddress {
+    address: String
+    type: String
+    city: String
+    country: String
+    postal_code: String
   }
 
   enum GenderEnum {
