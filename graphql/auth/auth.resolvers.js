@@ -42,7 +42,7 @@ const Login = async (parent, { email, password }) => {
   //validate the user email and password
   validateUser({ email, password });
 
-  const user = await UserModel.findOne({ email, status: 'active' });
+  const user = await UserModel.findOne({ email, status: 'active' }).select('_id email password salt');
 
   if (!user) {
     throw new ApolloError('User Not Found', 'USER_NOT_FOUND');
@@ -64,10 +64,22 @@ const Login = async (parent, { email, password }) => {
   };
 };
 
+// LOADER
+async function user(parent, args, context) {
+  if (parent.user) {
+    return await context.loaders.UserLoader.load(parent.user._id);
+  }
+
+  return null;
+}
+
 module.exports = {
   Query: {},
   Mutation: {
     Login,
     RegisterUser,
+  },
+  AuthPayload: {
+    user,
   },
 };

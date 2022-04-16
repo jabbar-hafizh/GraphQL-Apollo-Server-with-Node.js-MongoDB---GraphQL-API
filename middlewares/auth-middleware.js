@@ -26,9 +26,9 @@ let authMiddleware = {
   Query: {
     GetAllUsers: requireAuth,
   },
-  //   Mutation: {
-  //     CreateJuryOrganizationSchedule: requireAuth,
-  //   },
+  Mutation: {
+    CreateProduct: requireAuth,
+  },
 };
 
 module.exports = authMiddleware;

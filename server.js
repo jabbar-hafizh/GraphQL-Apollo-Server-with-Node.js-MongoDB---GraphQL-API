@@ -24,6 +24,7 @@ const apolloServer = new ApolloServer({
   schema: protectedSchema,
   typeDefs,
   resolvers,
+  debug: process.env.APOLLO_SERVER_DEBUG || true,
   playground: process.env.APOLLO_SERVER_PLAYGROUND || true,
   introspection: process.env.APOLLO_SERVER_INTROSPECTION || true,
   formatError: (err) => {
