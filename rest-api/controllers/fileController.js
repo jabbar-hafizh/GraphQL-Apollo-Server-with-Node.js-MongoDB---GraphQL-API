@@ -10,10 +10,8 @@ async function singleUpload(req, res) {
   let bucket_file_name = req.params && req.params.custom_file_name ? req.params.custom_file_name : req.file.originalname;
   bucket_file_name = `${random}-${bucket_file_name}.jpeg`.replace(/\s/g, '');
 
-  console.log('bucket_file_name 1111', bucket_file_name);
   try {
-    console.log('bucket_file_name 222', bucket_file_name);
-    // await sharp(req.file.buffer).resize(500, 500).toFormat('jpeg').jpeg({ quality: 90 }).toFile(`public/fileuploads/${bucket_file_name}`);
+    await sharp(req.file.buffer).resize(500, 500).toFormat('jpeg').jpeg({ quality: 90 }).toFile(`public/fileuploads/${bucket_file_name}`);
     return res.json({
       original_file_name: req.file.originalname,
       bucket_file_name: bucket_file_name,
