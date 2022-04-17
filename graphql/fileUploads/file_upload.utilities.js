@@ -16,43 +16,46 @@ const SaveFileToServer = async (filename, createReadStream, customLocation, extN
     let newFilename = `${random}-${filename}`;
     let location = `${uploadDir ? uploadDir : './public/fileuploads/'}${newFilename}${extName}`;
     console.log('location', location);
+    let output = fs.createWriteStream(location);
+    console.log('output', output);
+    readable.pipe(output);
 
-    let stream = createReadStream()
-      .on('error', (error) => {
-        console.log('error 1111', error);
+    // let stream = createReadStream()
+    //   .on('error', (error) => {
+    //     console.log('error 1111', error);
 
-        if (stream.truncated) {
-          // delete the truncated file
-          fs.unlinkSync(location);
-        }
-        reject(error);
-      })
-      .pipe(fs.createWriteStream(location))
-      .on('error', (error) => {
-        console.log('error 2222', error);
+    //     if (stream.truncated) {
+    //       // delete the truncated file
+    //       fs.unlinkSync(location);
+    //     }
+    //     reject(error);
+    //   })
+    //   .pipe(fs.createWriteStream(location))
+    //   .on('error', (error) => {
+    //     console.log('error 2222', error);
 
-        reject(error);
-      })
-      .on('finish', async () => {
-        let file = {
-          originalname: '',
-          buffer: '',
-        };
-        console.log('file 1111', file);
+    //     reject(error);
+    //   })
+    //   .on('finish', async () => {
+    //     let file = {
+    //       originalname: '',
+    //       buffer: '',
+    //     };
+    //     console.log('file 1111', file);
 
-        file.buffer = fs.readFileSync(location);
-        file.originalname = newFilename;
-        console.log('file 2222', file);
-        try {
-          console.log('file 3333', file);
+    //     file.buffer = fs.readFileSync(location);
+    //     file.originalname = newFilename;
+    //     console.log('file 2222', file);
+    //     try {
+    //       console.log('file 3333', file);
 
-          resolve(file);
-        } catch (err) {
-          console.log('error 3333', err);
+    //       resolve(file);
+    //     } catch (err) {
+    //       console.log('error 3333', err);
 
-          reject(err);
-        }
-      });
+    //       reject(err);
+    //     }
+    //   });
   });
 };
 
