@@ -3,7 +3,6 @@ const multer = require('multer');
 const multerStorage = multer.memoryStorage();
 
 const multerFilter = (req, file, callback) => {
-  console.log('asd');
   if (file.mimetype.startsWith('image')) {
     callback(null, true);
   } else {
@@ -17,9 +16,3 @@ const upload = multer({
 });
 
 exports.uploadImage = upload.single('file');
-
-exports.removeImageFromServer = async (bucket_file_name) => {
-  fs.unlink(`public/fileuploads/${bucket_file_name}`, (err) => {
-    console.error(err);
-  });
-};
