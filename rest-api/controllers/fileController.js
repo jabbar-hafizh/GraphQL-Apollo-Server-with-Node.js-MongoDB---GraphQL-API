@@ -5,14 +5,12 @@ const path = require('path');
 const cloudinary = require('../../utils/cloudinary');
 const common = require('../../utils/common');
 
-const random = common.create_UUID();
-
 async function singleUpload(req, res) {
+  const random = common.create_UUID();
   let bucket_file_name = req.params && req.params.custom_file_name ? req.params.custom_file_name : req.file.originalname;
   bucket_file_name = `${random}-${bucket_file_name}.jpeg`.replace(/\s/g, '');
 
   try {
-    console.log('req.file', req.file);
     await sharp(req.file.buffer).resize(500, 500).toFormat('jpeg').jpeg({ quality: 90 }).toFile(`public/fileuploads/${bucket_file_name}`);
 
     return res.json({

@@ -1,8 +1,5 @@
 const multer = require('multer');
 
-const multerStorage = multer.memoryStorage();
-// const multerStorage = multer.diskStorage({});
-
 const multerFilter = (req, file, callback) => {
   if (file.mimetype.startsWith('image')) {
     callback(null, true);
@@ -12,8 +9,14 @@ const multerFilter = (req, file, callback) => {
 };
 
 const upload = multer({
-  storage: multerStorage,
+  storage: multer.memoryStorage(),
+  fileFilter: multerFilter,
+});
+
+const uploadCloudinary = multer({
+  storage: multer.diskStorage({}),
   fileFilter: multerFilter,
 });
 
 exports.uploadImage = upload.single('file');
+exports.uploadImageCloudinary = uploadCloudinary.single('file');
