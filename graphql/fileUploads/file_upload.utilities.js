@@ -42,7 +42,6 @@ const SaveFileToServer = async (filename, createReadStream, customLocation, extN
 
 async function SaveFile(filename, createReadStream, custom_file_name = '', extName) {
   return new Promise((resolve, reject) => {
-    console.log('filename', filename);
     let uploadDir = './public/fileuploads';
     let random = common.create_UUID();
     let newFilename = `${

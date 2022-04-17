@@ -54,5 +54,6 @@ apolloServer.applyMiddleware({ app, path: '/graphql' });
 const PORT = process.env.PORT || 8001;
 
 app.listen(PORT, () => {
-  console.log('app is running...', apolloServer.graphqlPath);
+  console.log('graphql api is running...', apolloServer.graphqlPath);
+  console.log('rest api is running...');
 });
