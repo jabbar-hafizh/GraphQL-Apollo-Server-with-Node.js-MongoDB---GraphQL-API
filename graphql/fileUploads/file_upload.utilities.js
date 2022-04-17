@@ -43,15 +43,8 @@ const SaveFileToServer = async (filename, createReadStream, customLocation, extN
         file.buffer = fs.readFileSync(location);
         file.originalname = newFilename;
         console.log('file 2222', file);
-        try {
-          console.log('file 3333', file);
 
-          resolve(file);
-        } catch (err) {
-          console.log('error 3333', err);
-
-          reject(err);
-        }
+        resolve(file);
       });
   });
 };
