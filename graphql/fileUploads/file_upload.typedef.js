@@ -15,12 +15,14 @@ const fileUpload = gql`
     original_file_name: String
     bucket_file_name: String
     file_url: String
+    cloudinary_public_id: String
   }
 
   input ImageInput {
     original_file_name: String
     bucket_file_name: String
     file_url: String
+    cloudinary_public_id: String
   }
 
   extend type Mutation {

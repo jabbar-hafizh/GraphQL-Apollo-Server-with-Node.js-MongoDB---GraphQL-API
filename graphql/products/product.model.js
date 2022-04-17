@@ -38,6 +38,7 @@ const productSchema = new Schema(
         original_file_name: { type: String },
         bucket_file_name: { type: String },
         file_url: { type: String },
+        cloudinary_public_id: { type: String },
       },
     ],
   },
