@@ -13,7 +13,6 @@ async function SingleUpload(parent, args) {
       args.custom_file_name,
       extention
     );
-    console.log('newFilename', newFilename);
 
     return {
       original_file_name: originalnName,
