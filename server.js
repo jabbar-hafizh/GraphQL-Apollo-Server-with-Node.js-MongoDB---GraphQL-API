@@ -12,12 +12,13 @@ const { applyMiddleware } = require('graphql-middleware');
 
 const app = express();
 
-// cors
 app.use(cors());
-// body parser middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(userLogMiddleware);
+
+require('./rest-api/routes')(app);
 
 const executableSchema = makeExecutableSchema({ typeDefs, resolvers });
 const protectedSchema = applyMiddleware(executableSchema, authMiddleware);
