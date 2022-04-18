@@ -10,6 +10,8 @@ const { authMiddleware, userLogMiddleware } = require('./middlewares/index');
 const { makeExecutableSchema } = require('graphql-tools');
 const { applyMiddleware } = require('graphql-middleware');
 
+const cron = require('./cron');
+
 const app = express();
 
 app.use(cors());
@@ -48,6 +50,11 @@ const apolloServer = new ApolloServer({
     loaders: loaders(),
   }),
 });
+
+// start CRON JOB 2 second after server started
+setTimeout(() => {
+  cron.start();
+}, 2000);
 
 apolloServer.applyMiddleware({ app, path: '/graphql' });
 

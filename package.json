@@ -24,6 +24,7 @@
     "apollo-server-express": "^2.8.1",
     "cloudinary": "^1.29.0",
     "cors": "^2.8.5",
+    "cron": "^1.8.2",
     "crypto": "^1.0.1",
     "dataloader": "^1.4.0",
     "dotenv": "^6.2.0",
