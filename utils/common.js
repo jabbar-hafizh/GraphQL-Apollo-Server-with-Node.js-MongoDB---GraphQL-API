@@ -37,11 +37,11 @@ function decrypt(password) {
  * @exports makeRandomString
  * @returns {string} string random result
  */
-exports.makeRandomString = function () {
+exports.makeRandomString = function (length_of_string = 10) {
   var result = '';
   var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   var charactersLength = characters.length;
-  for (var i = 0; i < 10; i++) {
+  for (var i = 0; i < length_of_string; i++) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
   return result;

@@ -3,6 +3,8 @@ const moment = require('moment');
 const UserModel = require('../graphql/users/user.model');
 
 const EmailUtilities = require('../utils/emails/index');
+const MidtransUtilities = require('../utils/midtrans');
+const common = require('../utils/common');
 
 async function BIRTHDAY_GREETING() {
   try {
@@ -71,4 +73,61 @@ async function IBE_REMINDER() {
   });
 }
 
-module.exports = { BIRTHDAY_GREETING, IBE_REMINDER };
+async function TEST_MIDTRANS() {
+  return new Promise(async (resolve) => {
+    console.log('TEST_MIDTRANS STARTS');
+
+    let parameter = {
+      payment_type: 'bank_transfer',
+      transaction_details: {
+        gross_amount: 10000,
+        order_id: common.makeRandomString(30),
+      },
+      customer_details: {
+        email: 'budi.utomo@Midtrans.com',
+        first_name: 'budi',
+        last_name: 'utomo',
+        phone: '+6281 1234 1234',
+      },
+      item_details: [
+        {
+          id: '1388998298204',
+          price: 5000,
+          quantity: 1,
+          name: 'Ayam Zozozo',
+        },
+        {
+          id: '1388998298205',
+          price: 5000,
+          quantity: 1,
+          name: 'Ayam Xoxoxo',
+        },
+      ],
+      bank_transfer: {
+        bank: 'bca',
+      },
+    };
+
+    let mailOptions = Object.assign({}, EmailUtilities.mailOptions);
+
+    await MidtransUtilities.coreApi
+      .charge(parameter)
+      .then((response) => {
+        mailOptions.subject = 'TOKPED TRANSACTION SUCCESS';
+        mailOptions.text = `Transaction with order id ${parameter.transaction_details.order_id} is success`;
+
+        EmailUtilities.sendEmail(mailOptions);
+      })
+      .catch((response) => {
+        mailOptions.subject = 'TOKPED TRANSACTION FAIL';
+        mailOptions.text = `Transaction with order id ${parameter.transaction_details.order_id} is failed`;
+
+        EmailUtilities.sendEmail(mailOptions);
+      });
+
+    console.log('TEST_MIDTRANS END');
+    resolve('TEST_MIDTRANS END');
+  });
+}
+
+module.exports = { BIRTHDAY_GREETING, IBE_REMINDER, TEST_MIDTRANS };
