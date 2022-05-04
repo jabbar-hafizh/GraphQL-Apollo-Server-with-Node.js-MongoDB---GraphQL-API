@@ -10,7 +10,7 @@ const runImmediately = false;
 // Note that each of this function should return a promise in order to be use here.
 // Also each of this job should have first parameters as options.
 
-const { BIRTHDAY_GREETING } = require('./USER_NX');
+const { BIRTHDAY_GREETING, IBE_REMINDER } = require('./USER_NX');
 
 // schedule cron time for each day here.
 // json values:
@@ -29,6 +29,21 @@ let schedules = [
     when: 'Every day 00.00 am.',
     CRON_TIME: '0 0 * * *',
     JOBS_TO_RUN: [{ func: BIRTHDAY_GREETING, params: {} }],
+  },
+  {
+    when: 'Every day 05.00 am.',
+    CRON_TIME: '0 05 * * *',
+    JOBS_TO_RUN: [{ func: IBE_REMINDER, params: {} }],
+  },
+  {
+    when: 'Every day 00.00 am.',
+    CRON_TIME: '0 12 * * *',
+    JOBS_TO_RUN: [{ func: IBE_REMINDER, params: {} }],
+  },
+  {
+    when: 'Every day 08.00 pm.',
+    CRON_TIME: '0 20 * * *',
+    JOBS_TO_RUN: [{ func: IBE_REMINDER, params: {} }],
   },
 ];
 

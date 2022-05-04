@@ -1,4 +1,5 @@
 const moment = require('moment');
+const nodemailer = require('nodemailer');
 
 const UserModel = require('../graphql/users/user.model');
 
@@ -40,4 +41,36 @@ async function BIRTHDAY_GREETING() {
   }
 }
 
-module.exports = { BIRTHDAY_GREETING };
+async function IBE_REMINDER() {
+  return new Promise(async (resolve) => {
+    console.log('IBE REMINDER STARTS');
+
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.MAIL_USERNAME,
+        pass: process.env.MAIL_PASSWORD,
+      },
+    });
+
+    let mailOptions = {
+      from: process.env.MAIL_USERNAME,
+      to: 'mubarok.ibrahim18@gmail.com',
+      subject: 'TOKPED GRAPHQL REMINDER',
+      text: `HI IBE, DON'T FORGET TO CONTINUE TOKPED MINI PROJECT`,
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
+
+    console.log('IBE REMINDER END');
+    resolve('IBE REMINDER END');
+  });
+}
+
+module.exports = { BIRTHDAY_GREETING, IBE_REMINDER };
