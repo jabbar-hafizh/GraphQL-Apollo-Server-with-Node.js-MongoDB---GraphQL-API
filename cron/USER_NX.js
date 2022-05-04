@@ -1,7 +1,8 @@
 const moment = require('moment');
-const nodemailer = require('nodemailer');
 
 const UserModel = require('../graphql/users/user.model');
+
+const EmailUtilities = require('../utils/emails/index');
 
 async function BIRTHDAY_GREETING() {
   try {
@@ -25,9 +26,21 @@ async function BIRTHDAY_GREETING() {
             return;
           }
           const birth_date_today = moment.utc(each_user.birth_date, 'DD/MM/YYYY');
-          if (today.format('DD/MM') !== birth_date_today.format('DD/MM')) {
+          if (today.format('DD/MM') !== birth_date_today.format('DD/MM') || !each_user.email) {
             return;
           }
+          let mailOptions = Object.assign({}, EmailUtilities.mailOptions);
+
+          mailOptions.to = each_user.email;
+          mailOptions.subject = `Happy birhth day ${each_user.first_name ? each_user.first_name : ''} ${
+            each_user.last_name ? each_user.last_name : ''
+          }`;
+          mailOptions.text = `Happy birhth day ${each_user.first_name ? each_user.first_name : ''} ${
+            each_user.last_name ? each_user.last_name : ''
+          }`;
+
+          EmailUtilities.sendEmail(mailOptions);
+
           console.log(`Happy birhth day ${each_user.first_name} ${each_user.last_name}`);
           counter += 1;
         });
@@ -45,28 +58,13 @@ async function IBE_REMINDER() {
   return new Promise(async (resolve) => {
     console.log('IBE REMINDER STARTS');
 
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.MAIL_USERNAME,
-        pass: process.env.MAIL_PASSWORD,
-      },
-    });
+    let mailOptions = Object.assign({}, EmailUtilities.mailOptions);
 
-    let mailOptions = {
-      from: process.env.MAIL_USERNAME,
-      to: 'mubarok.ibrahim18@gmail.com',
-      subject: 'TOKPED GRAPHQL REMINDER',
-      text: `HI IBE, DON'T FORGET TO CONTINUE TOKPED MINI PROJECT`,
-    };
+    mailOptions.to = 'mubarok.ibrahim18@gmail.com';
+    mailOptions.subject = 'TOKPED GRAPHQL REMINDER';
+    mailOptions.text = `HI IBE, DON'T FORGET TO CONTINUE TOKPED MINI PROJECT`;
 
-    transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log('Email sent: ' + info.response);
-      }
-    });
+    EmailUtilities.sendEmail(mailOptions);
 
     console.log('IBE REMINDER END');
     resolve('IBE REMINDER END');
