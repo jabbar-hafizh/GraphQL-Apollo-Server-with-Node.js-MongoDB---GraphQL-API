@@ -455,3 +455,11 @@ exports.validateEmail = function (email) {
 exports.onlyUnique = function (value, index, self) {
   return self.indexOf(value) === index;
 };
+
+exports.convertDateFromEpochTime = function (epoch_time = Date.now(), format = 'DD/MM/YYYY') {
+  return moment(epoch_time).format(format);
+};
+
+exports.convertDateToEpochTime = function (date = moment().format('DD/MM/YYYY'), format = 'DD/MM/YYYY') {
+  return moment(date, format).valueOf();
+};
