@@ -456,10 +456,24 @@ exports.onlyUnique = function (value, index, self) {
   return self.indexOf(value) === index;
 };
 
-exports.convertDateFromEpochTime = function (epoch_time = Date.now(), format = 'DD/MM/YYYY') {
+/**
+ * A module to convert date date from epoch time
+ *
+ * @exports capitalize
+ * @param {number} epoch_time number value
+ * @returns {string} string value of date
+ */
+exports.convertDateFromEpochTime = function (epoch_time = Date.now(), format = 'DD/MM/YYYY HH:mm') {
   return moment(epoch_time).format(format);
 };
 
-exports.convertDateToEpochTime = function (date = moment().format('DD/MM/YYYY'), format = 'DD/MM/YYYY') {
+/**
+ * A module to convert date date from epoch time
+ *
+ * @exports capitalize
+ * @param {string} date string value of date
+ * @returns {number} number value
+ */
+exports.convertDateToEpochTime = function (date = moment().format('DD/MM/YYYY HH:mm'), format = 'DD/MM/YYYY HH:mm') {
   return moment(date, format).valueOf();
 };
