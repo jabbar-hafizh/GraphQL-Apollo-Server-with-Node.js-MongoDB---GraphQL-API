@@ -18,6 +18,7 @@ const productOrderTypeDef = gql`
     payment_method: ProductOrderPaymentMethodEnum
     product_id: ID
     quantity: Int
+    paid_date: Float
   }
 
   type ProductOrder {
@@ -29,6 +30,7 @@ const productOrderTypeDef = gql`
     user_id: User
     quantity: Int
     count_document: Int
+    paid_date: Float
   }
 
   input ProductOrderFilterInput {
@@ -36,12 +38,19 @@ const productOrderTypeDef = gql`
     order_status: ProductOrderOrderStatusEnum
     payment_method: ProductOrderPaymentMethodEnum
     user_id: ID
+    paid_date: TimeRangeInput
+  }
+
+  input TimeRangeInput {
+    start_time: Float
+    end_time: Float
   }
 
   input ProductOrderSortingInput {
     order_status: SortingEnum
     payment_method: SortingEnum
     product_name: SortingEnum
+    paid_date: SortingEnum
   }
 
   enum ProductOrderOrderStatusEnum {

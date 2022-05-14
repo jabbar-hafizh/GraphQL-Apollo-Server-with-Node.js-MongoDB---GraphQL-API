@@ -25,6 +25,14 @@ async function GetAllProductOrders(parent, { filter, pagination, sorting }) {
     if (filter.user_id) {
       query.$and.push({ user_id: Types.ObjectId(filter.user_id) });
     }
+    if (filter.paid_date) {
+      query.$and.push({
+        paid_date: {
+          $gte: filter.paid_date.start_time,
+          $lte: filter.paid_date.end_time,
+        },
+      });
+    }
   }
 
   if (sorting) {
@@ -65,6 +73,8 @@ async function GetAllProductOrders(parent, { filter, pagination, sorting }) {
       sort.order_status = sorting.order_status === 'asc' ? 1 : -1;
     } else if (sorting.payment_method) {
       sort.payment_method = sorting.payment_method === 'asc' ? 1 : -1;
+    } else if (sorting.paid_date) {
+      sort.paid_date = sorting.paid_date === 'asc' ? 1 : -1;
     }
     aggregateQuery.push({
       $sort: _.isEmpty(sort) ? { createdAt: -1 } : sort,
@@ -121,6 +131,7 @@ async function UpdateProductOrder(parent, { _id, product_order_input }) {
           {
             $set: {
               quantity: product.quantity - product_order_quantity,
+              paid_date: Date.now(),
             },
           },
           { new: true }

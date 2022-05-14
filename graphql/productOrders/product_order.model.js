@@ -30,6 +30,7 @@ const productSchema = new Schema(
     quantity: {
       type: Number,
     },
+    paid_date: Number,
   },
   {
     timestamps: true,
