@@ -468,7 +468,7 @@ exports.convertDateFromEpochTime = function (epoch_time = Date.now(), format = '
 };
 
 /**
- * A module to convert date date from epoch time
+ * A module to convert date date to epoch time
  *
  * @exports capitalize
  * @param {string} date string value of date
